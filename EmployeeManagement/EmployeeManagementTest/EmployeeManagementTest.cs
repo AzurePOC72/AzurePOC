@@ -45,7 +45,7 @@ namespace EmployeeManagementTest
             EmployeeController employeeController = new EmployeeController(_mockEmployeeRepository);
             try
             {
-                Employee employeeRsp = employeeController.Get(5);
+                Employee employeeRsp = employeeController.Get(1);
                 Assert.IsNotNull(employeeRsp);
                 Assert.AreEqual(1, employeeRsp.EmpId);
             }
