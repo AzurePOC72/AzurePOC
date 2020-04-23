@@ -18,65 +18,61 @@ namespace EmployeeManagement.Controllers
 
         // GET: api/Employee
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> Get()
+        public IEnumerable<Employee> Get()
         {
             var employees = _employeeRepository.GetAllEmployees();
             OkObjectResult okObjectResult = new OkObjectResult(employees);
-            return Ok(okObjectResult);
+            return employees;
         }
 
         // GET: api/Employee/5
         [HttpGet("{id}", Name = "Get")]
-        public async Task<ActionResult<Employee>> Get(int id)
+        public Employee Get(int id)
         {
             id = id <= 0 ? 1 : id;
             var employee = _employeeRepository.GetEmployeeByID(id);
 
             if (employee == null)
             {
-                return NoContent();
+                return null;
             }
 
-            return Ok(employee);
+            return employee;
         }
 
         // POST: api/Employee
         [HttpPost]
-        public async Task<ActionResult<Employee>> Post([FromBody] Employee value)
+        public Employee Post([FromBody] Employee value)
         {
             if (ModelState.IsValid)
             {
                 var employee = _employeeRepository.Add(value);
                 if (employee == null)
                 {
-                    BadRequestObjectResult badRequestObjectResult = new BadRequestObjectResult("Unable to process the Request");
-                    return BadRequest(badRequestObjectResult);
+                    return null;
                 }
 
-                return Created("", employee); 
+                return employee; 
             }
-            BadRequestObjectResult badRequestObjectResult1 = new BadRequestObjectResult(ModelState);
-            return BadRequest(badRequestObjectResult1);
+            return null;
         }
 
         // PUT: api/Employee
         [HttpPut]
-        public async Task<ActionResult<Employee>> Put([FromBody] Employee value)
+        public Employee Put([FromBody] Employee value)
         {
             if (ModelState.IsValid)
             {
                 var employee = _employeeRepository.UpdateEmployee(value);
                 if (employee == null)
                 {
-                    BadRequestObjectResult badRequestObjectResult = new BadRequestObjectResult("Unable to process the Request");
-                    return BadRequest(badRequestObjectResult);
+                    return null;
                 }
 
-                return Created("", employee); 
+                return employee; 
             }
 
-            BadRequestObjectResult badRequestObjectResult1 = new BadRequestObjectResult(ModelState);
-            return BadRequest(badRequestObjectResult1);
+            return null;
         }
 
         // DELETE: api/ApiWithActions/5
