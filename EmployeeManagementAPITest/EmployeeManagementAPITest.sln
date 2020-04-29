@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagementAPITest", "EmployeeManagementAPITest\EmployeeManagementAPITest.csproj", "{62096DE4-E5F2-495B-85EF-220E72EFFCC4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Item", "Solution Item", "{6861FBF9-3CF3-4ECC-AC6C-BCB2990273D9}"
+	ProjectSection(SolutionItems) = preProject
+		localEnv.Runsettings = localEnv.Runsettings
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
