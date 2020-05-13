@@ -22,7 +22,6 @@ namespace EmployeeManagementAPITest
             ApplicationSettings.EmployeeManagementEndpoint = _testContext.Properties["ApiEndpoint"].ToString();
         }
 
-
         [TestMethod]
         public void HappyPath_GetAllEmployee()
         {
@@ -33,9 +32,9 @@ namespace EmployeeManagementAPITest
                 Assert.IsNotNull(data);
                 Assert.AreEqual("Amal", data.Result.FirstOrDefault().EmpName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Assert.Fail();
+                Assert.Fail(ex.Message);
             }
         }
     }
