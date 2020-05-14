@@ -1,5 +1,6 @@
 ﻿using EmployeeManagementAPITest.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Linq;
@@ -53,14 +54,12 @@ namespace EmployeeManagementAPITest
             try
             {
                 _testContext.WriteLine($"Endpoint called: {ApplicationSettings.EmployeeManagementEndpoint}");
-
                 var client = new RestClient($"{ApplicationSettings.EmployeeManagementEndpoint}api/Employee");
                 client.Timeout = -1;
                 var request = new RestRequest(Method.GET);
                 IRestResponse response = client.Execute(request);
-                Console.WriteLine(response.Content);
-
                 _testContext.WriteLine(response.Content);
+                Assert.IsNotNull(response.Content, "Response content");
             }
             catch (Exception ex)
             {
