@@ -1,7 +1,8 @@
-﻿using System;
-using System.Linq;
-using EmployeeManagementAPITest.Models;
+﻿using EmployeeManagementAPITest.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EmployeeManagementAPITest
 {
@@ -23,17 +24,23 @@ namespace EmployeeManagementAPITest
         }
 
         [TestMethod]
-        public void HappyPath_GetAllEmployee()
+        public async Task HappyPath_GetAllEmployeeAsync()
         {
             try
             {
-                var data = EmployeeCallerFactory.Instance.GetEmployees();
+                _testContext.WriteLine($"Endpoint called: {ApplicationSettings.EmployeeManagementEndpoint}");
+                var data = await EmployeeCallerFactory.Instance.GetEmployees().ConfigureAwait(true);
 
                 Assert.IsNotNull(data);
-                Assert.AreEqual("Amal", data.Result.FirstOrDefault().EmpName);
+                Assert.AreEqual(3, data.Count, "Employee Count");
+                Assert.AreEqual("Amal", data.FirstOrDefault().EmpName, "Employee Name");
+                Assert.AreEqual("QA", data.FirstOrDefault().Department, "Employee Department");
+                Assert.AreEqual("Amal@fiserv.com", data.FirstOrDefault().Email, "Employee Email");
             }
             catch (Exception ex)
             {
+                _testContext.WriteLine(ex.Message);
+                _testContext.WriteLine(ex.InnerException.Message);
                 Assert.Fail(ex.Message);
             }
         }
