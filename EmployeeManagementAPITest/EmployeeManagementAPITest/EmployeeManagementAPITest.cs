@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -59,7 +60,9 @@ namespace EmployeeManagementAPITest
                 var request = new RestRequest(Method.GET);
                 IRestResponse response = client.Execute(request);
                 _testContext.WriteLine(response.Content);
+                var employee = JsonConvert.DeserializeObject<List<Employee>>(response.Content);
                 Assert.IsNotNull(response.Content, "Response content");
+                Assert.AreEqual("Amal", employee?.FirstOrDefault().EmpName);
             }
             catch (Exception ex)
             {
