@@ -14,7 +14,7 @@
   </RunConfiguration>
 
   <TestRunParameters>
-    <Parameter name="ApiEndpoint" value="http://awdarajamony01.fiservsdi.net/EmployeeManagement/" />
+    <Parameter name="ApiEndpoint" value="http://10.9.84.122/EmployeeManagement/" />
   </TestRunParameters>
 
   <!-- MSTest adapter -->
