@@ -14,7 +14,7 @@
   </RunConfiguration>
 
   <TestRunParameters>
-    <Parameter name="ApiEndpoint" value="http://10.9.84.122/EmployeeManagement/" />
+    <Parameter name="ApiEndpoint" value="https://demoazurepocapi.azurewebsites.net/" />
   </TestRunParameters>
 
   <!-- MSTest adapter -->
