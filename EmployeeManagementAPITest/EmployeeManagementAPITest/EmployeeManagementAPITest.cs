@@ -27,6 +27,7 @@ namespace EmployeeManagementAPITest
         }
 
         [TestMethod]
+        [TestCategory("Get-Regression")]
         public async Task HappyPath_GetAllEmployeeAsync()
         {
             try
@@ -35,7 +36,6 @@ namespace EmployeeManagementAPITest
                 var data = await EmployeeCallerFactory.Instance.GetEmployees().ConfigureAwait(true);
 
                 Assert.IsNotNull(data);
-                Assert.AreEqual(3, data.Count, "Employee Count");
                 Assert.AreEqual("Amal", data.FirstOrDefault().EmpName, "Employee Name");
                 Assert.AreEqual("QA", data.FirstOrDefault().Department, "Employee Department");
                 Assert.AreEqual("Amal@fiserv.com", data.FirstOrDefault().Email, "Employee Email");
@@ -43,33 +43,133 @@ namespace EmployeeManagementAPITest
             catch (Exception ex)
             {
                 _testContext.WriteLine(ex.Message);
-                _testContext.WriteLine(ex.InnerException.Message);
                 Assert.Fail(ex.Message);
             }
         }
 
-
         [TestMethod]
-        public void HappyPath_GetAllEmployee_Localcode()
+        [TestCategory("Get-Regression")]
+        public async Task HappyPath_GetEmployeeByID()
         {
             try
             {
-                _testContext.WriteLine($"Endpoint called: {ApplicationSettings.EmployeeManagementEndpoint}");
-                var client = new RestClient($"{ApplicationSettings.EmployeeManagementEndpoint}api/Employee");
-                client.Timeout = -1;
-                var request = new RestRequest(Method.GET);
-                IRestResponse response = client.Execute(request);
-                _testContext.WriteLine(response.Content);
-                var employee = JsonConvert.DeserializeObject<List<Employee>>(response.Content);
-                Assert.IsNotNull(response.Content, "Response content");
-                Assert.AreEqual("Amal", employee?.FirstOrDefault().EmpName);
+                var data = await EmployeeCallerFactory.Instance.GetEmployees(2).ConfigureAwait(true);
+
+                Assert.IsNotNull(data);
+                Assert.AreEqual("Murugan", data.EmpName, "Employee Name");
+                Assert.AreEqual("QA", data.Department, "Employee Department");
+                Assert.AreEqual("Murugan@fiserv.com", data.Email, "Employee Email");
             }
             catch (Exception ex)
             {
                 _testContext.WriteLine(ex.Message);
-                _testContext.WriteLine(ex.InnerException.Message);
                 Assert.Fail(ex.Message);
             }
         }
+
+        [TestMethod]
+        [TestCategory("Post-Regression")]
+        public async Task HappyPath_PostEmployee()
+        {
+            try
+            {
+
+                EmployeeManagementCaller.Model.Employee employee = new EmployeeManagementCaller.Model.Employee
+                {
+                    EmpName = "User1",
+                    Department = "Finance",
+                    Email = "User1@fiserv.com"
+                };
+                var postrspdata = await EmployeeCallerFactory.Instance.SaveEmployee(employee);
+                var data = await EmployeeCallerFactory.Instance.GetEmployees(postrspdata.EmpId).ConfigureAwait(true);
+
+                Assert.IsNotNull(data);
+                Assert.AreEqual(postrspdata.EmpName, data.EmpName, "Employee Name");
+                Assert.AreEqual(postrspdata.Department, data.Department, "Employee Department");
+                Assert.AreEqual(postrspdata.Email, data.Email, "Employee Email");
+            }
+            catch (Exception ex)
+            {
+                _testContext.WriteLine(ex.Message);
+                Assert.Fail(ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("Put-Regression")]
+        public async Task HappyPath_UpdateEmployee()
+        {
+            try
+            {
+                EmployeeManagementCaller.Model.Employee employee = new EmployeeManagementCaller.Model.Employee
+                {
+                    EmpName = "User2",
+                    Department = "Hr",
+                    Email = "User1@fiserv.com"
+                };
+                var postrspdata = await EmployeeCallerFactory.Instance.SaveEmployee(employee);
+
+                var data = await EmployeeCallerFactory.Instance.GetEmployees(postrspdata.EmpId).ConfigureAwait(true);
+
+                Assert.IsNotNull(data);
+                Assert.AreEqual(postrspdata.EmpName, data.EmpName, "Employee Name");
+                Assert.AreEqual(postrspdata.Department, data.Department, "Employee Department");
+                Assert.AreEqual(postrspdata.Email, data.Email, "Employee Email");
+
+                EmployeeManagementCaller.Model.Employee employee_new = new EmployeeManagementCaller.Model.Employee
+                {
+                    EmpId = postrspdata.EmpId,
+                    EmpName = "User3",
+                    Department = "ETG",
+                    Email = "User1@fiserv.com"
+                };
+                var Updaterspdata = await EmployeeCallerFactory.Instance.UpdateEmployee(postrspdata.EmpId, employee_new);
+
+                var data2 = await EmployeeCallerFactory.Instance.GetEmployees(postrspdata.EmpId).ConfigureAwait(true);
+                Assert.IsNotNull(data2);
+                Assert.AreEqual(employee_new.EmpName, data2.EmpName, "Employee Name");
+                Assert.AreEqual(employee_new.Department, data2.Department, "Employee Department");
+                Assert.AreEqual(employee_new.Email, data2.Email, "Employee Email");
+            }
+            catch (Exception ex)
+            {
+                _testContext.WriteLine(ex.Message);
+                Assert.Fail(ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("Delete-Regression")]
+        public async Task HappyPath_DeleteEmployee()
+        {
+            try
+            {
+                EmployeeManagementCaller.Model.Employee employee = new EmployeeManagementCaller.Model.Employee
+                {
+                    EmpName = "User4",
+                    Department = "Hr",
+                    Email = "User1@fiserv.com"
+                };
+                var postrspdata = await EmployeeCallerFactory.Instance.SaveEmployee(employee);
+
+                var data = await EmployeeCallerFactory.Instance.GetEmployees(postrspdata.EmpId).ConfigureAwait(true);
+
+                Assert.IsNotNull(data);
+                Assert.AreEqual(postrspdata.EmpName, data.EmpName, "Employee Name");
+                Assert.AreEqual(postrspdata.Department, data.Department, "Employee Department");
+                Assert.AreEqual(postrspdata.Email, data.Email, "Employee Email");
+
+                var deleteData = await EmployeeCallerFactory.Instance.DeleteEmployee(postrspdata.EmpId);
+
+                var data2 = await EmployeeCallerFactory.Instance.GetEmployees(postrspdata.EmpId).ConfigureAwait(true);
+                Assert.IsNull(data2);
+            }
+            catch (Exception ex)
+            {
+                _testContext.WriteLine(ex.Message);
+                Assert.Fail(ex.Message);
+            }
+        }
+
     }
 }

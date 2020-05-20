@@ -58,10 +58,10 @@ namespace EmployeeManagement.Controllers
         }
 
         // PUT: api/Employee
-        [HttpPut]
-        public Employee Put([FromBody] Employee value)
+        [HttpPut("{id}")]
+        public Employee Put(int id, [FromBody] Employee value)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && id == value.EmpId)
             {
                 var employee = _employeeRepository.UpdateEmployee(value);
                 if (employee == null)
@@ -69,7 +69,7 @@ namespace EmployeeManagement.Controllers
                     return null;
                 }
 
-                return employee; 
+                return employee;
             }
 
             return null;
