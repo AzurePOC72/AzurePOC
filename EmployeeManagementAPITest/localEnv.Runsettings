@@ -14,7 +14,7 @@
   </RunConfiguration>
 
   <TestRunParameters>
-    <Parameter name="ApiEndpoint" value="https://demoazurepocapi.azurewebsites.net/" />
+    <Parameter name="ApiEndpoint" value="https://demoazurepoc.azurewebsites.net/" />
   </TestRunParameters>
 
   <!-- MSTest adapter -->
