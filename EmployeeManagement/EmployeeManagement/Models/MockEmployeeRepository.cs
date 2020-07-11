@@ -13,7 +13,8 @@ namespace EmployeeManagement.Models
             {
                 new Employee{EmpId=1,EmpName="Amal",Department="QA",Email="Amal@fiserv.com" },
                 new Employee{EmpId=2,EmpName="Murugan",Department="QA",Email="Murugan@fiserv.com" },
-                new Employee{EmpId=3,EmpName="Dinesh",Department="QA",Email="Dinesh@fiserv.com" }
+                new Employee{EmpId=3,EmpName="Dinesh",Department="QA",Email="Dinesh@fiserv.com" },
+                new Employee{EmpId=4,EmpName="Bharath",Department="QA",Email="Bharath@fiserv.com" }
             };
         }
 
