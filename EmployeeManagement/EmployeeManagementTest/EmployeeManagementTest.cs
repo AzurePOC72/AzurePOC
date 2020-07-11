@@ -30,7 +30,7 @@ namespace EmployeeManagementTest
                 var employeeRsp = employeeController.Get();
                 
                 Assert.IsNotNull(employeeRsp);
-                Assert.AreEqual(4, employeeRsp?.Count());
+                Assert.AreEqual(5, employeeRsp?.Count());
             }
             catch (Exception ex)
             {
